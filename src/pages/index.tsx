@@ -1,11 +1,12 @@
 import type { ShoppingItem } from "@prisma/client";
 import { type NextPage } from "next";
 import Head from "next/head";
-import { useState } from "react";
+import { CSSProperties, useState } from "react";
 import ItemModal from "../components/ItemModal";
 import { trpc } from "../utils/trpc";
 import { HiX } from "react-icons/hi";
 import { motion } from "framer-motion";
+import ClipLoader from "react-spinners/ClipLoader";
 
 const Home: NextPage = () => {
   const [items, setItems] = useState<ShoppingItem[]>([]);
@@ -41,7 +42,24 @@ const Home: NextPage = () => {
     },
   });
 
-  if (!itemsData || isLoading) return <p>Loading...</p>;
+  const override: CSSProperties = {
+    display: "block",
+    margin: "0 auto",
+    marginTop: "100px",
+    borderColor: "rgb(124 58 237)",
+    justifyContent: "center",
+  };
+
+  if (!itemsData || isLoading)
+    return (
+      <ClipLoader
+        loading={isLoading}
+        cssOverride={override}
+        size={30}
+        aria-label="Loading Spinner"
+        data-testid="loader"
+      />
+    );
   return (
     <>
       <Head>
