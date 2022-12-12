@@ -9,11 +9,13 @@ const Home: NextPage = () => {
   const [items, setItems] = useState<ShoppingItem[]>([]);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
-  const {} = trpc.useMutation(["items.addItem"], {
-    onSuccess: (item) => {
-      setItems((prev) => [...prev, item]);
+  const { data: itemsData, isLoading } = trpc.useQuery(["items.getAllItems"], {
+    onSuccess(items) {
+      setItems(items);
     },
   });
+
+  if (!itemsData || isLoading) return <p>Loading...</p>;
   return (
     <>
       <Head>
@@ -22,7 +24,9 @@ const Home: NextPage = () => {
         <link rel="icon" href="/favicon.ico" />
       </Head>
 
-      {modalOpen && <ItemModal setModalOpen={setModalOpen} />}
+      {modalOpen && (
+        <ItemModal setModalOpen={setModalOpen} setItems={setItems} />
+      )}
 
       <main className="mx-auto my-12 max-w-3xl">
         <div className="flex justify-between">
