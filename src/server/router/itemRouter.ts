@@ -24,4 +24,42 @@ export const itemRouter = createRouter()
       const items = await ctx.prisma.shoppingItem.findMany();
       return items;
     },
+  })
+
+  .mutation("deleteItems", {
+    input: z.object({
+      id: z.string(),
+    }),
+    resolve: async ({ input, ctx }) => {
+      const { id } = input;
+
+      const item = await ctx.prisma.shoppingItem.delete({
+        where: {
+          id,
+        },
+      });
+
+      return item;
+    },
+  })
+
+  .mutation("toggleChecked", {
+    input: z.object({
+      id: z.string(),
+      checked: z.boolean(),
+    }),
+    resolve: async ({ input, ctx }) => {
+      const { id, checked } = input;
+
+      const item = await ctx.prisma.shoppingItem.update({
+        where: {
+          id,
+        },
+        data: {
+          checked,
+        },
+      });
+
+      return item;
+    },
   });

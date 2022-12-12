@@ -16,9 +16,11 @@
     "@trpc/next": "^9.27.4",
     "@trpc/react": "^9.27.4",
     "@trpc/server": "^9.27.4",
+    "framer-motion": "^7.6.19",
     "next": "13.0.2",
     "react": "18.2.0",
     "react-dom": "18.2.0",
+    "react-icons": "^4.7.1",
     "superjson": "1.9.1",
     "zod": "^3.18.0"
   },
