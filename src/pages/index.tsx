@@ -13,8 +13,10 @@ const Home: NextPage = () => {
   const [modalOpen, setModalOpen] = useState<boolean>(false);
 
   const { data: itemsData, isLoading } = trpc.useQuery(["items.getAllItems"], {
-    onSuccess(items) {
-      setItems(items);
+    onSuccess(shoppingItems) {
+      setItems(shoppingItems);
+      const checked = shoppingItems.filter((item) => item.checked);
+      setCheckeditems(checked);
     },
   });
 
@@ -87,7 +89,9 @@ const Home: NextPage = () => {
                     onClick={() =>
                       toggleChecked({
                         id,
-                        checked: checkedItems.some((item) => item.id === id),
+                        checked: checkedItems.some((item) => item.id === id)
+                          ? false
+                          : true,
                       })
                     }
                   >
